@@ -873,7 +873,7 @@ class NonCallableMock(Base):
         """
         if self.call_count == 0:
             msg = ("Expected '%s' to have been called." %
-                   self._mock_name or 'mock')
+                   (self._mock_name or 'mock'))
             raise AssertionError(msg)
 
     def assert_called_once(self):
@@ -1974,9 +1974,9 @@ def _set_return_value(mock, method, name):
         method.return_value = fixed
         return
 
-    return_calulator = _calculate_return_value.get(name)
-    if return_calulator is not None:
-        return_value = return_calulator(mock)
+    return_calculator = _calculate_return_value.get(name)
+    if return_calculator is not None:
+        return_value = return_calculator(mock)
         method.return_value = return_value
         return
 
