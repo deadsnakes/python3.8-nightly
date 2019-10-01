@@ -61,11 +61,7 @@ _PyRuntimeState_Init_impl(_PyRuntimeState *runtime)
     _PyGC_Initialize(&runtime->gc);
     _PyEval_Initialize(&runtime->ceval);
 
-    runtime->preconfig.struct_size = sizeof(PyPreConfig);
-    PyStatus status = PyPreConfig_InitPythonConfig(&runtime->preconfig);
-    if (_PyStatus_EXCEPTION(status)) {
-        return status;
-    }
+    PyPreConfig_InitPythonConfig(&runtime->preconfig);
 
     runtime->gilstate.check_enabled = 1;
 
@@ -210,15 +206,7 @@ PyInterpreterState_New(void)
     interp->id_refcount = -1;
     interp->check_interval = 100;
 
-    interp->config.struct_size = sizeof(PyConfig);
-    PyStatus status = PyConfig_InitPythonConfig(&interp->config);
-    if (_PyStatus_EXCEPTION(status)) {
-        /* Don't report status to caller: PyConfig_InitPythonConfig()
-           can only fail with a memory allocation error. */
-        PyConfig_Clear(&interp->config);
-        PyMem_RawFree(interp);
-        return NULL;
-    }
+    PyConfig_InitPythonConfig(&interp->config);
 
     interp->eval_frame = _PyEval_EvalFrameDefault;
 #ifdef HAVE_DLOPEN

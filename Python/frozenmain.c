@@ -40,12 +40,7 @@ Py_FrozenMain(int argc, char **argv)
     }
 
     PyConfig config;
-    config.struct_size = sizeof(PyConfig);
-    status = PyConfig_InitPythonConfig(&config);
-    if (PyStatus_Exception(status)) {
-        PyConfig_Clear(&config);
-        Py_ExitStatusException(status);
-    }
+    PyConfig_InitPythonConfig(&config);
     config.pathconfig_warnings = 0;   /* Suppress errors from getpath.c */
 
     if ((p = Py_GETENV("PYTHONINSPECT")) && *p != '\0')

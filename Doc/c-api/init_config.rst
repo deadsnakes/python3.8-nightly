@@ -194,24 +194,17 @@ PyPreConfig
    * Configure the LC_CTYPE locale
    * Set the UTF-8 mode
 
-   The :c:member:`struct_size` field must be explicitly initialized to
-   ``sizeof(PyPreConfig)``.
-
    Function to initialize a preconfiguration:
 
-   .. c:function:: PyStatus PyPreConfig_InitIsolatedConfig(PyPreConfig *preconfig)
+   .. c:function:: void PyPreConfig_InitIsolatedConfig(PyPreConfig *preconfig)
 
       Initialize the preconfiguration with :ref:`Python Configuration
       <init-python-config>`.
 
-   .. c:function:: PyStatus PyPreConfig_InitPythonConfig(PyPreConfig *preconfig)
+   .. c:function:: void PyPreConfig_InitPythonConfig(PyPreConfig *preconfig)
 
       Initialize the preconfiguration with :ref:`Isolated Configuration
       <init-isolated-conf>`.
-
-   The caller of these functions is responsible to handle exceptions (error or
-   exit) using :c:func:`PyStatus_Exception` and
-   :c:func:`Py_ExitStatusException`.
 
    Structure fields:
 
@@ -274,13 +267,6 @@ PyPreConfig
       same way the regular Python parses command line arguments: see
       :ref:`Command Line Arguments <using-on-cmdline>`.
 
-   .. c:member:: size_t struct_size
-
-      Size of the structure in bytes: must be initialized to
-      ``sizeof(PyPreConfig)``.
-
-      Field used for API and ABI compatibility.
-
    .. c:member:: int use_environment
 
       See :c:member:`PyConfig.use_environment`.
@@ -332,12 +318,7 @@ Example using the preinitialization to enable the UTF-8 Mode::
 
     PyStatus status;
     PyPreConfig preconfig;
-    preconfig.struct_size = sizeof(PyPreConfig);
-
-    status = PyPreConfig_InitPythonConfig(&preconfig);
-    if (PyStatus_Exception(status)) {
-        Py_ExitStatusException(status);
-    }
+    PyPreConfig_InitPythonConfig(&preconfig);
 
     preconfig.utf8_mode = 1;
 
@@ -360,17 +341,14 @@ PyConfig
 
    Structure containing most parameters to configure Python.
 
-   The :c:member:`struct_size` field must be explicitly initialized to
-   ``sizeof(PyConfig)``.
-
    Structure methods:
 
-   .. c:function:: PyStatus PyConfig_InitPythonConfig(PyConfig *config)
+   .. c:function:: void PyConfig_InitPythonConfig(PyConfig *config)
 
       Initialize configuration with :ref:`Python Configuration
       <init-python-config>`.
 
-   .. c:function:: PyStatus PyConfig_InitIsolatedConfig(PyConfig *config)
+   .. c:function:: void PyConfig_InitIsolatedConfig(PyConfig *config)
 
       Initialize configuration with :ref:`Isolated Configuration
       <init-isolated-conf>`.
@@ -679,13 +657,6 @@ PyConfig
       Encoding and encoding errors of :data:`sys.stdin`, :data:`sys.stdout` and
       :data:`sys.stderr`.
 
-   .. c:member:: size_t struct_size
-
-      Size of the structure in bytes: must be initialized to
-      ``sizeof(PyConfig)``.
-
-      Field used for API and ABI compatibility.
-
    .. c:member:: int tracemalloc
 
       If non-zero, call :func:`tracemalloc.start` at startup.
@@ -753,13 +724,9 @@ Example setting the program name::
     void init_python(void)
     {
         PyStatus status;
-        PyConfig config;
-        config.struct_size = sizeof(PyConfig);
 
-        status = PyConfig_InitPythonConfig(&config);
-        if (PyStatus_Exception(status)) {
-            goto fail;
-        }
+        PyConfig config;
+        PyConfig_InitPythonConfig(&config);
 
         /* Set the program name. Implicitly preinitialize Python. */
         status = PyConfig_SetString(&config, &config.program_name,
@@ -786,13 +753,9 @@ configuration, and then override some parameters::
     PyStatus init_python(const char *program_name)
     {
         PyStatus status;
-        PyConfig config;
-        config.struct_size = sizeof(PyConfig);
 
-        status = PyConfig_InitPythonConfig(&config);
-        if (PyStatus_Exception(status)) {
-            goto done;
-        }
+        PyConfig config;
+        PyConfig_InitPythonConfig(&config);
 
         /* Set the program name before reading the configuraton
            (decode byte string from the locale encoding).
@@ -874,14 +837,9 @@ Example of customized Python always running in isolated mode::
     int main(int argc, char **argv)
     {
         PyStatus status;
+
         PyConfig config;
-        config.struct_size = sizeof(PyConfig);
-
-        status = PyConfig_InitPythonConfig(&config);
-        if (PyStatus_Exception(status)) {
-            goto fail;
-        }
-
+        PyConfig_InitPythonConfig(&config);
         config.isolated = 1;
 
         /* Decode command line arguments.
@@ -1066,15 +1024,9 @@ phases::
     void init_python(void)
     {
         PyStatus status;
+
         PyConfig config;
-        config.struct_size = sizeof(PyConfig);
-
-        status = PyConfig_InitPythonConfig(&config);
-        if (PyStatus_Exception(status)) {
-            PyConfig_Clear(&config);
-            Py_ExitStatusException(status);
-        }
-
+        PyConfig_InitPythonConfig(&config);
         config._init_main = 0;
 
         /* ... customize 'config' configuration ... */
