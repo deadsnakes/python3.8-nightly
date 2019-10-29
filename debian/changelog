@@ -1,3 +1,9 @@
+python3.8 (3.8.0-50-g1d2862a323-1+bionic1) bionic; urgency=medium
+
+  * Update to v3.8.0-50-g1d2862a323 (2019-10-29).
+
+ -- Anthony Sottile (deadsnakes) <asottile+deadsnakes@umich.edu>  Tue, 29 Oct 2019 15:02:14 +0000
+
 python3.8 (3.8.0-44-g955f96f6aa-1+bionic1) bionic; urgency=medium
 
   * Update to v3.8.0-44-g955f96f6aa (2019-10-27).
