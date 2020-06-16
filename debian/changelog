@@ -1,3 +1,9 @@
+python3.8 (3.8.3-89-ge63cc2f646-1+xenial1) xenial; urgency=medium
+
+  * Update to v3.8.3-89-ge63cc2f646 (2020-06-16).
+
+ -- Anthony Sottile (deadsnakes) <asottile+deadsnakes@umich.edu>  Tue, 16 Jun 2020 15:02:03 +0000
+
 python3.8 (3.8.3-86-g811e040b6e-1+xenial1) xenial; urgency=medium
 
   * Update to v3.8.3-86-g811e040b6e (2020-06-14).
