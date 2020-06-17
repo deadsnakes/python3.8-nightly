@@ -63,16 +63,16 @@ jobs:
         fi
     - name: build
       run: mkdir dist && cd target && ../runbooks/build --git-build
-      if: ${{ steps.update.outputs.deploy }} == 'true'
+      if: ${{ steps.update.outputs.deploy == 'true' }}
     - name: test
       run: runbooks/quick-test --distrib-codename ${{ matrix.name }} --dist-dir dist --src-dir target
-      if: ${{ steps.update.outputs.deploy }} == 'true'
+      if: ${{ steps.update.outputs.deploy == 'true' }}
     - name: build source package
       run: rm -rf dist && cd target && ../runbooks/build --source --git-build
-      if: ${{ steps.update.outputs.deploy }} == 'true'
+      if: ${{ steps.update.outputs.deploy == 'true' }}
     - name: upload package
       run: cd dist && dput -d -u ppa:deadsnakes/nightly *.changes
-      if: ${{ steps.update.outputs.deploy }} == 'true'
+      if: ${{ steps.update.outputs.deploy == 'true' }}
     - name: push branches
       run: git -C target push origin --tags ubuntu/${{ matrix.name }} upstream
-      if: ${{ steps.update.outputs.deploy }} == 'true'
+      if: ${{ steps.update.outputs.deploy == 'true' }}
