@@ -6,8 +6,26 @@ on:
     - cron: '45 8 * * *'
 
 jobs:
+  update:
+    name: update
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone target
+      uses: actions/checkout@v2
+      with:
+        path: target
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: clone runbooks
+      uses: actions/checkout@v2
+      with:
+        path: runbooks
+        repository: deadsnakes/runbooks
+    - name: pull upstream cpython
+      run: runbooks/nightly-pull-upstream target 3.8
   build:
     name: build
+    needs: update
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,11 +46,6 @@ jobs:
         path: target
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
-    - name: clone nightly
-      uses: actions/checkout@v2
-      with:
-        path: nightly
-        repository: deadsnakes/nightly
     - name: clone runbooks
       uses: actions/checkout@v2
       with:
@@ -49,11 +62,11 @@ jobs:
         base64 -d <<< '${{ secrets.GPG_PUBLIC }}' > ~/.gnupg/pubring.gpg
         base64 -d <<< '${{ secrets.GPG_SECRET }}' > ~/.gnupg/secring.gpg
         chmod 600 ~/.gnupg/*
-    - name: update branches
+    - name: update branch
       id: update
       run: |
         set -euxo pipefail
-        ret=0; nightly/bin/update-nightly target ubuntu/${{ matrix.name }} || ret=$?
+        ret=0; runbooks/nightly-update-branch target ubuntu/${{ matrix.name }} || ret=$?
         if [ "$ret" -eq 42 ]; then
           echo '::set-output name=deploy::false'
         elif [ "$ret" -ne 0 ]; then
@@ -74,5 +87,5 @@ jobs:
       run: cd dist && dput -d -u ppa:deadsnakes/nightly *.changes
       if: ${{ steps.update.outputs.deploy == 'true' }}
     - name: push branches
-      run: git -C target push origin --tags ubuntu/${{ matrix.name }} upstream
+      run: git -C target push origin ubuntu/${{ matrix.name }}
       if: ${{ steps.update.outputs.deploy == 'true' }}
