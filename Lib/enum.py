@@ -249,7 +249,11 @@ class EnumMeta(type):
 
         # double check that repr and friends are not the mixin's or various
         # things break (such as pickle)
+        # however, if the method is defined in the Enum itself, don't replace
+        # it
         for name in ('__repr__', '__str__', '__format__', '__reduce_ex__'):
+            if name in classdict:
+                continue
             class_method = getattr(enum_class, name)
             obj_method = getattr(member_type, name, None)
             enum_method = getattr(first_enum, name, None)
@@ -487,14 +491,25 @@ class EnumMeta(type):
             return object, Enum
 
         def _find_data_type(bases):
+            data_types = []
             for chain in bases:
+                candidate = None
                 for base in chain.__mro__:
                     if base is object:
                         continue
                     elif '__new__' in base.__dict__:
                         if issubclass(base, Enum):
                             continue
-                        return base
+                        data_types.append(candidate or base)
+                        break
+                    elif not issubclass(base, Enum):
+                        candidate = base
+            if len(data_types) > 1:
+                raise TypeError('too many data types: %r' % data_types)
+            elif data_types:
+                return data_types[0]
+            else:
+                return None
 
         # ensure final parent class is an Enum derivative, find any concrete
         # data type, and check that Enum has no members
