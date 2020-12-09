@@ -417,7 +417,6 @@ class TestEnum(unittest.TestCase):
                 green = 2
                 blue = 3
 
-
     def test_enum_with_value_name(self):
         class Huh(Enum):
             name = 1
@@ -569,12 +568,15 @@ class TestEnum(unittest.TestCase):
         class Test1Enum(MyMethodEnum, int, MyStrEnum):
             One = 1
             Two = 2
+        self.assertTrue(Test1Enum._member_type_ is int)
         self.assertEqual(str(Test1Enum.One), 'MyStr')
+        self.assertEqual(format(Test1Enum.One, ''), 'MyStr')
         #
         class Test2Enum(MyStrEnum, MyMethodEnum):
             One = 1
             Two = 2
         self.assertEqual(str(Test2Enum.One), 'MyStr')
+        self.assertEqual(format(Test1Enum.One, ''), 'MyStr')
 
     def test_inherited_data_type(self):
         class HexInt(int):
@@ -2172,6 +2174,11 @@ class TestFlag(unittest.TestCase):
         self.assertEqual(repr(~(Open.RO | Open.CE)), '<Open.AC: 3>')
         self.assertEqual(repr(~(Open.WO | Open.CE)), '<Open.RW: 2>')
 
+    def test_format(self):
+        Perm = self.Perm
+        self.assertEqual(format(Perm.R, ''), 'Perm.R')
+        self.assertEqual(format(Perm.R | Perm.X, ''), 'Perm.R|X')
+
     def test_or(self):
         Perm = self.Perm
         for i in Perm:
@@ -2504,6 +2511,7 @@ class TestIntFlag(unittest.TestCase):
 
     def test_type(self):
         Perm = self.Perm
+        self.assertTrue(Perm._member_type_ is int)
         Open = self.Open
         for f in Perm:
             self.assertTrue(isinstance(f, Perm))
@@ -2582,6 +2590,11 @@ class TestIntFlag(unittest.TestCase):
         self.assertEqual(repr(~(Open.RO | Open.CE)), '<Open.AC|RW|WO: -524289>')
         self.assertEqual(repr(~(Open.WO | Open.CE)), '<Open.RW: -524290>')
         self.assertEqual(repr(Open(~4)), '<Open.CE|AC|RW|WO: -5>')
+
+    def test_format(self):
+        Perm = self.Perm
+        self.assertEqual(format(Perm.R, ''), '4')
+        self.assertEqual(format(Perm.R | Perm.X, ''), '5')
 
     def test_or(self):
         Perm = self.Perm
