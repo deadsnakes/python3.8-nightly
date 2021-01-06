@@ -545,7 +545,7 @@ Connection Objects
          con.close()
 
 
-   .. method:: backup(target, *, pages=0, progress=None, name="main", sleep=0.250)
+   .. method:: backup(target, *, pages=-1, progress=None, name="main", sleep=0.250)
 
       This method makes a backup of a SQLite database even while it's being accessed
       by other clients, or concurrently by the same connection.  The copy will be
@@ -1092,19 +1092,6 @@ committed:
 
 .. literalinclude:: ../includes/sqlite3/ctx_manager.py
 
-
-Common issues
--------------
-
-Multithreading
-^^^^^^^^^^^^^^
-
-Older SQLite versions had issues with sharing connections between threads.
-That's why the Python module disallows sharing connections and cursors between
-threads. If you still try to do so, you will get an exception at runtime.
-
-The only exception is calling the :meth:`~Connection.interrupt` method, which
-only makes sense to call from a different thread.
 
 .. rubric:: Footnotes
 
