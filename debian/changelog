@@ -1,3 +1,9 @@
+python3.8 (3.8.8-49-ge516290976-1+xenial1) xenial; urgency=medium
+
+  * Update to v3.8.8-49-ge516290976 (2021-03-28).
+
+ -- Anthony Sottile (deadsnakes) <asottile+deadsnakes@umich.edu>  Sun, 28 Mar 2021 08:59:19 +0000
+
 python3.8 (3.8.8-46-g455583b54a-1+xenial1) xenial; urgency=medium
 
   * Update to v3.8.8-46-g455583b54a (2021-03-27).
