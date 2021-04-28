@@ -30,7 +30,6 @@ jobs:
     strategy:
       matrix:
         include:
-        - name: xenial
         - name: bionic
     env:
       DEBEMAIL: 'asottile+deadsnakes@umich.edu'
