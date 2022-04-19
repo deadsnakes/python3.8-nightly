@@ -9,7 +9,6 @@ gdbm-import.diff
 link-opt.diff
 setup-modules.diff
 bdist-wininst-notfound.diff
-profiled-build.diff
 langpack-gettext.diff
 disable-sem-check.diff
 lib-argparse.diff
@@ -26,4 +25,5 @@ reproducible-buildinfo.diff
 pydoc-use-pager.diff
 build-math-object.diff
 argparse-no-shutil.diff
-0029-sysconfigdata-name.patch
+0033-sysconfigdata-name.patch
+0029-destshared-location.patch

@@ -1,5 +1,5 @@
 From: Anthony Sottile <asottile@umich.edu>
-Date: Sun, 22 Dec 2019 00:21:18 -0800
+Date: Sun, 22 Dec 2019 00:15:16 -0800
 Subject: sysconfigdata-name
 
 ---
@@ -10,7 +10,7 @@ Subject: sysconfigdata-name
  4 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-index 3b536c2..caeb1f0 100644
+index 8df93b2..92086ac 100644
 --- a/Lib/distutils/sysconfig.py
 +++ b/Lib/distutils/sysconfig.py
 @@ -459,9 +459,8 @@ def _init_posix():
@@ -40,10 +40,10 @@ index f1cc516..e836145 100644
      ))
  
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index d84e116..b4710a2 100644
+index 2e5a2fc..24efaf2 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -1485,8 +1485,10 @@ libinstall:	build_all $(srcdir)/Modules/xxmodule.c
+@@ -1475,8 +1475,10 @@ libinstall:	build_all $(srcdir)/Modules/xxmodule.c
  			esac; \
  		done; \
  	done
@@ -56,7 +56,7 @@ index d84e116..b4710a2 100644
  	$(INSTALL_DATA) $(srcdir)/LICENSE $(DESTDIR)$(LIBDEST)/LICENSE.txt
  	if test -d $(DESTDIR)$(LIBDEST)/distutils/tests; then \
  		$(INSTALL_DATA) $(srcdir)/Modules/xxmodule.c \
-@@ -1641,6 +1643,7 @@ sharedinstall: sharedmods
+@@ -1631,6 +1633,7 @@ sharedinstall: sharedmods
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
  		--root=$(DESTDIR)/

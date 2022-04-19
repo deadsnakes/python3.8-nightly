@@ -83,6 +83,7 @@ Description: Minimal subset of the Python language (version 3.8)
  be used in the boot process for some basic tasks.
  See /usr/share/doc/python3.8-minimal/README.Debian for a list of the modules
  contained in this package.
+XB-Cnf-Visible-Pkgname: python3.8
 
 Package: libpython3.8-minimal
 Architecture: any
@@ -213,7 +214,7 @@ Depends: python3.8 (= ${binary:Version}),
   python3-tk,
   ca-certificates,
   ${shlibs:Depends}, ${misc:Depends}
-Recommends: python3.8-doc, python3.8-examples,
+Recommends: python3.8-examples,
 Suggests: python3.8-dev
 Description: Python Interpreter with complete class library (version 3.8)
  Python, the high-level, interactive object oriented language,

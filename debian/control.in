@@ -83,6 +83,7 @@ Description: Minimal subset of the Python language (version @VER@)
  be used in the boot process for some basic tasks.
  See /usr/share/doc/@PVER@-minimal/README.Debian for a list of the modules
  contained in this package.
+XB-Cnf-Visible-Pkgname: @PVER@
 
 Package: lib@PVER@-minimal
 Architecture: any
@@ -213,7 +214,7 @@ Depends: @PVER@ (= ${binary:Version}),
   python3-tk,
   ca-certificates,
   ${shlibs:Depends}, ${misc:Depends}
-Recommends: @PVER@-doc, @PVER@-examples,
+Recommends: @PVER@-examples,
 Suggests: @PVER@-dev
 Description: Python Interpreter with complete class library (version @VER@)
  Python, the high-level, interactive object oriented language,
